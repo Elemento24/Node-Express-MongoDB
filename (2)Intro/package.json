@@ -1,0 +1,14 @@
+{
+  "name": "intro",
+  "version": "1.0.0",
+  "description": "Intro to Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Elemento",
+  "license": "ISC",
+  "dependencies": {
+    "slugify": "^1.4.5"
+  }
+}
