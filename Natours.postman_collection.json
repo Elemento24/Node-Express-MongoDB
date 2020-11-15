@@ -1,0 +1,1254 @@
+{
+	"info": {
+		"_postman_id": "1e6174e0-d2f2-4469-847e-3d19c0f9a079",
+		"name": "Natours",
+		"description": "Welcome to the Natours API. Here, you will find endpoints for all the resources which are provided by this API, including Authentication, Tours, Reviews, Users & Bookings.\n- Make sure to Select the \"Prod Natours\" Environment, before using the API. \n- The API is live on Heroku, and using \"Prod Natours\" env, you can get the links to the live API.\n\n# Support\n- The Source Code for the API is present on <a href='https://github.com/Elemento24/Natours'>Github</a>\n- For any further queries, feel free to reach me on <a href=\"mailto:mittalvishesh021@gmail.com\">G-Mail</a>",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Sign-Up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9fd2121f-e807-4004-a0f1-23dbd4c38b7a",
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"David Millman\",\n    \"email\": \"david@gmail.com\",\n    \"password\": \"password\",\n    \"passwordConfirm\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"signup"
+							]
+						},
+						"description": "- Route for Sign-Up\n- For Registering a new user into the Database\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e0f8d093-2f77-4e8a-8374-dd05e150b7be",
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"david@gamil.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						},
+						"description": "- Route For Login\n- For allowing a Registered User to access Protected Resources.\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"david@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/forgotPassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"forgotPassword"
+							]
+						},
+						"description": "- Route for Forgot Password\n- User can request for a New Password\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1cd6fa0-8134-49cd-a3db-691a0edd903b",
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"password\",\n    \"passwordConfirm\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/resetPassword/<resetToken>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"resetPassword",
+								"<resetToken>"
+							]
+						},
+						"description": "- Route for Reset Password\n- User can reset his/her password\n- The reset token, will be provided through mail, when the user will hit the Forgot Password route.\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "36da67b3-4d2b-4ccd-82ec-134e1a961f45",
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"passwordCurrent\": \"password\",\n    \"password\": \"newPassword\",\n    \"passwordConfirm\": \"newPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/updateMyPassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"updateMyPassword"
+							]
+						},
+						"description": "- Route for Updating the Current User's Password\n- User can update the password, without having to hit the Forgot Password Route, if he/she remembers the Password\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				}
+			],
+			"description": "This section contains all the API endpoints, regarding Authentication, which includes Sign-Up, Login, Forgot Password, Reset Password & Update Current User Password.",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tours",
+			"item": [
+				{
+					"name": "Get All Tours",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours"
+							],
+							"query": [
+								{
+									"key": "duration[gte]",
+									"value": "7",
+									"description": "Query for Tour Duration. Supports gte, lte, gt, lt operators.",
+									"disabled": true
+								},
+								{
+									"key": "ratingsAverage[gte]",
+									"value": "4.7",
+									"disabled": true
+								},
+								{
+									"key": "price[lt]",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "difficulty",
+									"value": "easy",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "-ratingsAverage,price",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "name,duration",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								}
+							]
+						},
+						"description": "- Route for Getting All Tours\n- User can get all the tours in the Database\n- One can Paginate, Sort as well as Limit the number of results\n- One can also query for some particular fields only\n- For all the fields, whose values can be compared, comparisons such as GREATER THAN, GREATER THAN/EQUAL TO, LESS THAN, LESS THAN/EQUAL To are supported.\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tour",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/<tourID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"<tourID>"
+							]
+						},
+						"description": "- Route for Getting a Particular Tour\n- User can get all the info about a Particular Tour\n- The tour ID, needs to be passed as a Query Param\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Tour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startLocation\": {\n      \"description\": \"Miami, USA\",\n      \"type\": \"Point\",\n      \"coordinates\": [-80.185942, 25.774772],\n      \"address\": \"301 Biscayne Blvd, Miami, FL 33132, USA\"\n    },\n    \"images\": [\"tour-2-1.jpg\", \"tour-2-2.jpg\", \"tour-2-3.jpg\"],\n    \"startDates\": [\n      \"2021-06-19T09:00:00.000Z\",\n      \"2021-07-20T09:00:00.000Z\",\n      \"2021-08-18T09:00:00.000Z\"\n    ],\n    \"name\": \"The Sea Explorer\",\n    \"duration\": 7,\n    \"maxGroupSize\": 15,\n    \"difficulty\": \"medium\",\n    \"guides\": [\"5c8a22c62f8fb814b56fa18b\", \"5c8a1f4e2f8fb814b56fa185\"],\n    \"price\": 497,\n    \"summary\": \"Exploring the jaw-dropping US east coast by foot and by boat\",\n    \"description\": \"Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\",\n    \"imageCover\": \"tour-2-cover.jpg\",\n    \"locations\": [\n      {\n        \"_id\": \"5c88fa8cf4afda39709c2959\",\n        \"description\": \"Lummus Park Beach\",\n        \"type\": \"Point\",\n        \"coordinates\": [-80.128473, 25.781842],\n        \"day\": 1\n      },\n      {\n        \"_id\": \"5c88fa8cf4afda39709c2958\",\n        \"description\": \"Islamorada\",\n        \"type\": \"Point\",\n        \"coordinates\": [-80.647885, 24.909047],\n        \"day\": 2\n      }\n    ]\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/tours",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours"
+							]
+						},
+						"description": "- Route for Creating a New Tour, in the DB\n- Information such as Start Location, Images, Start Dates, Name, Duration, Max Group Size, Difficulty, Guides IDs, Price, Summary, Description, Cover Image, Locations need to be passed\n- For Admins & Lead Guides\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Tour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "price",
+									"value": "997",
+									"type": "text"
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/<tourID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"<tourID>"
+							]
+						},
+						"description": "- Route for Updating a Tour\n- One can update a tour, by passing the Updated Information only\n- The tour ID needs to be passed as a Query Param\n- For Admins & Lead Guides\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/<tourID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"<tourID>"
+							]
+						},
+						"description": "- Route for Deleting a Tour\n- One can delete a Tour\n- The tour ID needs to be passed as a Query Param\n- For Admins & Lead Guides\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Top 5 Cheap Tours",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/top-5-cheap",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"top-5-cheap"
+							]
+						},
+						"description": "- A Special Route, for a Specific Purpose, that is for Getting top 5 Cheap Tours\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tour Stats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/tour-stats",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"tour-stats"
+							]
+						},
+						"description": "- A Special Route, for a Specific Purpose, that is for Getting Tour Stats\n- The User can get certain info like, number of Tours, number of Ratings, average Rating and much more\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Monthly Plan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/monthly-plan/<year>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"monthly-plan",
+								"<year>"
+							]
+						},
+						"description": "- A Special Route, for a Specific Purpose, that is for Getting Monthly Plan for a Year\n- The User can get info like which is the busiest month of the year, least busiest and much more\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tours Within Radius",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/tours-within/<distance>/center/<lat>,<lng>/unit/<unit>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"tours-within",
+								"<distance>",
+								"center",
+								"<lat>,<lng>",
+								"unit",
+								"<unit>"
+							]
+						},
+						"description": "- A Special Route, for a Specific Purpose, that is for Getting all the Tours within a Certain Radius\n- The User can get all tours, within a certain radius. Accepted Units are Mile and Kilometers\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distances to Tours from Point",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/distances/<lat>,<lng>/unit/<unit>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"distances",
+								"<lat>,<lng>",
+								"unit",
+								"<unit>"
+							]
+						},
+						"description": "- A Special Route, for a Specific Purpose, that is for Getting all the Tours' Distances from a Point\n- The User can get distances of all the Tours, from a Particular Point\n- For Users, Guides, Lead Guides, Admins\n- Public Route, Accessible to All"
+					},
+					"response": []
+				}
+			],
+			"description": "This section contains all the API endpoints, regarding Tours, which includes Get All Tours, Get Tour, Create New Tour, Update Tour, Delete Tour, Get Top 5 Cheap Tours, Get Tour Stats, Get Monthly Plan, Get Tours Within Radius, Get Distances to Tours from Point.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c548e0e0-0dc9-4154-b91c-b67ff5b16a46",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "55002221-df2e-4c31-b101-2ef8faff9b41",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get All Reviews",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/reviews/?rating=4",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								""
+							],
+							"query": [
+								{
+									"key": "rating",
+									"value": "4"
+								}
+							]
+						},
+						"description": "- Route for Getting All Reviews\n- User can get all the reviews in the Database\n- One can query the Reviews, just like All Tours\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/reviews/<reviewID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"<reviewID>"
+							]
+						},
+						"description": "- Route for Getting a particular Review\n- User can get any Review from the Database\n- The review ID needs to be passed as a Query Param\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"review\": \"Awesome Tour\",\n    \"rating\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/reviews/<reviewID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"<reviewID>"
+							]
+						},
+						"description": "- Route for Creating a New Review\n- Information such as Review & Rating needs to be passed\n- For Users only\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/reviews/<reviewID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"<reviewID>"
+							]
+						},
+						"description": "- Route for Updating a Review\n- One can update a review, by passing the Updated Information only\n- The review ID needs to be passed as a Query Param\n- For Admins & Users\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/reviews/<reviewID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"<reviewID>"
+							]
+						},
+						"description": "- Route for Deleting a Review\n- One can delete a Review\n- The review ID needs to be passed as a Query Param\n- For Admins & Lead Guides\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				}
+			],
+			"description": "This section contains all the API endpoints, regarding Reviews, which includes Get All Reviews, Get Review, Create New Review, Update Review, Delete Review",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Tours/Reviews",
+			"item": [
+				{
+					"name": "Create New Review on Tour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"review\": \"Wonderful\",\n    \"rating\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/<tourID>/reviews",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"<tourID>",
+								"reviews"
+							]
+						},
+						"description": "- Route for Creating a New Review on a Tour\n- Information such as Review & Rating needs to be passed\n- For Users only\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Reviews on Tour",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/tours/<tourID>/reviews",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tours",
+								"<tourID>",
+								"reviews"
+							]
+						},
+						"description": "- Route for Getting All Reviews on a Tour\n- One can query the Reviews, just like All Tours\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				}
+			],
+			"description": "This section contains all the API endpoints, regarding Reviews for a particular Tour, which includes Create a New Review on a Tour and Get All Reviews on a Tour",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "user",
+									"disabled": true
+								}
+							]
+						},
+						"description": "- Route for Getting All Users\n- User can get all the users in the Database\n- One can query the Users, just like All Tours\n- For Admins only\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users/<userID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"<userID>"
+							]
+						},
+						"description": "- Route for Getting a particular User\n- User can get info about a particular User from the Database\n- The user ID needs to be passed as a Query Param\n- For Admins only\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jonas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/<userID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"<userID>"
+							]
+						},
+						"description": "- Route for Updating a User\n- One can update a user, by passing the Updated Information only\n- The user ID needs to be passed as a Query Param\n- Not to be used for Updating the Password\n- For Admins only\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users/<userID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"<userID>"
+							]
+						},
+						"description": "- Route for Deleting a User\n- One can delete a User\n- The user ID needs to be passed as a Query Param\n- For Admins only\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							]
+						},
+						"description": "- Route for Getting the current User\n- User can get info about him/her\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Current User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Leo P. Gillespie",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/home/elemento/Elemento/WebDev/Udemy/NodeJS/(13)Adv/dev-data/img/aarav.jpg"
+								}
+							],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/v1/users/updateMe",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"updateMe"
+							]
+						},
+						"description": "- Route for Updating the current User\n- User can update his/her info\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Current User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/users/deleteMe",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"deleteMe"
+							]
+						},
+						"description": "- Route for Deleting the current User\n- User can delete his/her account\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				}
+			],
+			"description": "This section contains all the API endpoints, regarding Users, which includes Get All Users, Get User, Update User, Delete User, Get Current User, Update Current User, Delete Current User",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "Get All Bookings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/bookings",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						},
+						"description": "- Route for Getting All Bookings\n- User can get all the bookings in the Database\n- One can query the Bookings, just like All Tours\n- For Admins & Lead guides\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Checkout Session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/bookings/checkout-session/<tourID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"checkout-session",
+								"<tourID>"
+							]
+						},
+						"description": "- Route for Getting a Stripe Checkout Session\n- User can get a Checkout Session, using which the payment is completed\n- The tour ID needs to be passed as a Query Param\n- For Users, Guides, Lead Guides, Admins\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Booking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/v1/bookings/<bookingID>",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"<bookingID>"
+							]
+						},
+						"description": "- Route for Getting a particular Booking\n- User can get info about a particular Booking from the Database\n- The booking ID needs to be passed as a Query Param\n- For Admins & Lead Guides\n- Private Route, Need to be Logged In"
+					},
+					"response": []
+				}
+			],
+			"description": "This section contains all the API endpoints, regarding Bookings, which includes Get All Bookings, Get Checkout Session, Get One Booking",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Error Handling for Undefined Routes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/tour",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tour"
+					]
+				},
+				"description": "- Route for Error Handling\n- Public Route, Accessible to All"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "18613cd9-e8f5-4737-aa3d-dc936a73db16",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "db037db7-9e34-4722-8725-840f74367b9f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
